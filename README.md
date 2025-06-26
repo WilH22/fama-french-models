@@ -45,12 +45,13 @@ This project explores **portfolio optimization using the Fama-French 3-Factor (F
 ![image](https://github.com/user-attachments/assets/944b18ec-b854-42d8-bf5e-ed4549c917a3)
 
 ### 🔹 6. CSV Export
-- Save outputs to `/data/output/` folder:
+- Save outputs to `/data/FF3_output/` folder:
   - `merged_data.csv`
   - `portfolio_returns.csv`
   - `benchmark_returns.csv`
   - `performance_summary.csv`
   - `regression_coefficients.csv` (if applicable)
+![image](https://github.com/user-attachments/assets/2d9d9ee5-4fee-4468-8d8d-4b64340d4564)
 
 ---
 
