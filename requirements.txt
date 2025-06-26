@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib.pyplot 
+datetime
+yfinance
+scipy.stats
+seaborn
+tabulate
+statsmodels.api 
+cvxpy
