@@ -10,14 +10,27 @@ This project explores **portfolio optimization using the Fama-French 3-Factor (F
 - Specify tickers, start date, and end date interactively
 - Automatically formats and fetches data via `yfinance`
 
+![image](https://github.com/user-attachments/assets/de003612-9e8f-40c0-9698-39b9d788f82d)
+
 ### 🔹 2. Data Collection
 - Pulls adjusted close prices and calculates monthly returns
 - Merges stock returns with Fama-French 3-Factor data
+- Generate Regression summary and Coefficients for Alpha, Mkt-RF, SMB, HML per ticker
+- Plotting actual vs. fitted regression per ticker
+
+![image](https://github.com/user-attachments/assets/a0129c0c-22ea-4148-b131-1f9f3403dd61)
+
+![image](https://github.com/user-attachments/assets/cc24fe00-d30c-4b6b-93d0-ff39653e6fff)
 
 ### 🔹 3. Portfolio Optimization
 - Uses CVXPY to maximize the Sharpe Ratio based on FF3 regression
+- Users can input their risk aversion (default = 10)
 - Constraints: full investment (sum(weights)=1), no short selling
+- Generated pie chart for the optimized portfolio weight
+- 
+![image](https://github.com/user-attachments/assets/1ad6c9dc-c987-4e61-80aa-fc3a1f7235e3)
 
+    
 ### 🔹 4. Performance Metrics
 - Calculates and compares:
   - Total Return
@@ -27,7 +40,9 @@ This project explores **portfolio optimization using the Fama-French 3-Factor (F
 
 ### 🔹 5. Visualization
 - Drawdown plots (FF3 Optimized Portfolio vs. S&P 500)
-- Optional bar chart of FF3 regression coefficients
+- Drawdown plots (FF3 Optimized Portfolio vs. S&P 500)
+
+![image](https://github.com/user-attachments/assets/944b18ec-b854-42d8-bf5e-ed4549c917a3)
 
 ### 🔹 6. CSV Export
 - Save outputs to `/data/output/` folder:
