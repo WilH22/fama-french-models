@@ -51,6 +51,7 @@ This project explores **portfolio optimization using the Fama-French 3-Factor (F
   - `benchmark_returns.csv`
   - `performance_summary.csv`
   - `regression_coefficients.csv` (if applicable)
+
 ![image](https://github.com/user-attachments/assets/2d9d9ee5-4fee-4468-8d8d-4b64340d4564)
 
 ---
