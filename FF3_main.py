@@ -174,7 +174,7 @@ if input("Save all outputs to CSV? (y/n): ").strip().lower() == 'y':
     # Save each available output
     for name, df in outputs.items():
         if df is not None:
-            file_path = f"data/output/{name}.csv"
+            file_path = f"data/FF3_output/{name}.csv"
             df.to_csv(file_path, index=True)
             print(f"✅ {name}.csv saved.")
             print(f"📄 {name.replace('_', ' ').title()} data saved to {file_path}\n")

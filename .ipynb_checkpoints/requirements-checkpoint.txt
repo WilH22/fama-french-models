@@ -1,7 +1,0 @@
-numpy 
-pandas 
-matplotlib.pyplot 
-yfinance 
-scipy.stats 
-seaborn
-tabulate
