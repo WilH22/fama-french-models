@@ -3,6 +3,24 @@
 This project explores **portfolio optimization using the Fama-French 3-Factor (FF3) model**, comparing performance against the S&P 500 benchmark. It includes data collection, return calculation, performance evaluation, and regression analysis for multiple tickers.
 
 ---
+📈 About Fama-French 3-Factor Model
+The Fama-French 3-Factor Model is an asset pricing model that extends the Capital Asset Pricing Model (CAPM) by adding two additional factors to explain stock returns:
+
+1️⃣ Market Risk (Market Premium):
+Similar to CAPM, it considers the excess return of the market over the risk-free rate.
+
+2️⃣ Size Factor (SMB: Small Minus Big):
+Accounts for the tendency of small-cap stocks to outperform large-cap stocks over the long term.
+
+3️⃣ Value Factor (HML: High Minus Low):
+Captures the tendency of high book-to-market (value) stocks to outperform low book-to-market (growth) stocks.
+
+The model’s formula:
+![image](https://github.com/user-attachments/assets/4819ed82-e06e-475f-8734-020ee03d66ae)
+![image](https://github.com/user-attachments/assets/076bd523-90aa-4b22-a082-6a1a9cc305d0)
+
+This model helps in understanding asset returns by attributing performance to market exposure, company size, and value factors, allowing investors to better evaluate and adjust their portfolio strategies.
+
 
 ## ✅ Current Features (FF3)
 
