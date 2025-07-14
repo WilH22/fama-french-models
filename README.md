@@ -38,31 +38,39 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
    - Automatically calculates coefficients and statistical details  
    - Saves regression outputs to `Data/output/data/` and `Data/output/plot/`  
    - Displays summary interpretations in the terminal
-D<img width="464" height="126" alt="image" src="https://github.com/user-attachments/assets/c4202877-57e5-41d4-b6ef-31bf9d2e37e0" />
+
+<img width="464" height="126" alt="image" src="https://github.com/user-attachments/assets/c4202877-57e5-41d4-b6ef-31bf9d2e37e0" />
 
 
 3. **⚖️ Set Risk Aversion & Optimize Portfolios**  
    - User inputs **risk aversion level** (default = `10`)
+
 <img width="380" height="95" alt="image" src="https://github.com/user-attachments/assets/05238e22-aff8-4f66-a778-b1fca0355028" />
+
    - Choose to optimize with:
      - Fama-French **3-Factor (FF3)**
      - Fama-French **5-Factor (FF5)**
      - Select parameter method: **mean** or **last value**
+
 <img width="445" height="402" alt="image" src="https://github.com/user-attachments/assets/943bfa0b-4866-4e3e-869f-30c064353a94" />
 
+
    - View pie charts for each optimized portfolio
+
 <img width="837" height="701" alt="image" src="https://github.com/user-attachments/assets/43b28714-cd77-4589-b220-35282701e08c" />
 
 4. **🔁 Backtest vs Benchmark or Compare Models**  
    - Choose to:
      - Compare FF3 & FF5 directly  
      - Or include **S&P 500** benchmark
- <img width="499" height="35" alt="image" src="https://github.com/user-attachments/assets/be7d0319-cfa7-4812-9c48-58a3cf6e9a69" />
+
+<img width="499" height="35" alt="image" src="https://github.com/user-attachments/assets/be7d0319-cfa7-4812-9c48-58a3cf6e9a69" />
 
    - Plots cumulative performance:
      - FF3 Optimized Portfolio  
      - FF5 Optimized Portfolio  
      - S&P 500 (if provided)
+
 <img width="829" height="336" alt="image" src="https://github.com/user-attachments/assets/334356fd-723a-4bf5-b0b4-a3863ff44e4d" />
   
    - Output saved to `Data/output/plot/`  
@@ -70,9 +78,11 @@ D<img width="464" height="126" alt="image" src="https://github.com/user-attachme
 
 5. **📉 Drawdown Analysis**  
    - Computes **Max Drawdown** for each model
+
 <img width="713" height="289" alt="image" src="https://github.com/user-attachments/assets/3c5df5cc-1082-40f9-a6f9-65270d36cdf9" />
   
    - Visualizes downside risk profile
+
 <img width="833" height="544" alt="image" src="https://github.com/user-attachments/assets/fafa0add-263b-46f4-8282-2f9870684855" />
 
 6. **📊 Compute Performance Metrics**  
@@ -84,12 +94,14 @@ D<img width="464" height="126" alt="image" src="https://github.com/user-attachme
      - Sortino Ratio  
      - Calmar Ratio  
    - Generates rolling 12-month Sharpe Ratio plots
+
 <img width="203" height="328" alt="image" src="https://github.com/user-attachments/assets/7f8ca6be-e1d6-4ca4-94a0-45c0cf92b358" />
 <img width="818" height="405" alt="image" src="https://github.com/user-attachments/assets/47792424-97a4-4ee6-b6ab-6d7261392d8c" />
 
 7. **💾 Final Save Option**  
    - Prompt to save **raw data outputs** to `Data/output/data/`  
    - All visualizations and CSVs are saved automatically
+
 <img width="608" height="438" alt="image" src="https://github.com/user-attachments/assets/2ec8750e-d351-43f9-aa13-ae90916c0177" />
 <img width="1193" height="482" alt="image" src="https://github.com/user-attachments/assets/6b67698f-a454-4fc1-b599-213602238d72" />
 
