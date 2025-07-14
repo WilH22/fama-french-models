@@ -102,9 +102,6 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
    - Prompt to save **raw data outputs** to `Data/output/data/`  
    - All visualizations and CSVs are saved automatically
 
-<img width="608" height="438" alt="image" src="https://github.com/user-attachments/assets/2ec8750e-d351-43f9-aa13-ae90916c0177" />
-<img width="1193" height="482" alt="image" src="https://github.com/user-attachments/assets/6b67698f-a454-4fc1-b599-213602238d72" />
-
 
 ## 📌 Example Output
 
