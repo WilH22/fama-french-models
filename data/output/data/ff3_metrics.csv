@@ -1,7 +1,2 @@
-,0
-CAGR,12.27
-Volatility,21.66
-Sharpe Ratio,0.59
-Sortino Ratio,1.12
-Max Drawdown,-27.36
-Calmar Ratio,0.45
+,CAGR,Volatility,Sharpe Ratio,Sortino Ratio,Max Drawdown,Calmar Ratio
+FF3 Optimized Portfolio,12.27,21.66,0.59,1.12,-27.36,0.45

@@ -357,8 +357,10 @@ ff3_metrics = calculate_performance_metrics(cum_ff3, risk_free_rate=risk_free_ra
 ff5_metrics = calculate_performance_metrics(cum_ff5, risk_free_rate=risk_free_rate)
 
 # Display cleanly
-display(ff3_metrics.rename('FF3 Optimized Portfolio').to_frame().T)
-display(ff5_metrics.rename('FF5 Optimized Portfolio').to_frame().T)
+ff3_metrics=ff3_metrics.rename('FF3 Optimized Portfolio').to_frame().T 
+display(ff3_metrics)
+ff5_metrics=ff5_metrics.rename('FF5 Optimized Portfolio').to_frame().T
+display(ff5_metrics)
 
 # Rolling Sharpe plots
 cum_returns_dict = {}
