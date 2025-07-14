@@ -18,7 +18,6 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 
 ## 📁 Project Structure
 
-```bash
 fama-french-models/
 │
 ├── main.py                      # Main script to run full analysis
@@ -36,5 +35,11 @@ fama-french-models/
 
 ---
 
-## ⚙️ How It Works (Process Flow)
+## 🧠 How It Works (Process Flow)
 
+1. Load Price & Factor Data
+2. Calculate Daily & Cumulative Returns
+3. Run OLS Regression (FF3 & FF5)
+4. Compute Performance Metrics
+5. Visualize Sharpe, Drawdown
+6. Export Charts and CSVs
