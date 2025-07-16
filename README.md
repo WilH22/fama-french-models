@@ -1,18 +1,28 @@
 # 📊 Fama-French Models: FF3 vs FF5 Portfolio Analysis & Optimization
 
-This project builds, evaluates, and compares optimized portfolios using the **Fama-French 3-Factor (FF3)** and **Fama-French 5-Factor (FF5)** models. It combines quantitative finance theory with Python for robust portfolio construction, backtesting, and performance visualization.
+This project builds, evaluates, and compares optimized portfolios using the **Fama-French 3-Factor (FF3)** and **Fama-French 5-Factor (FF5)** models. It combines quantitative finance theory with Python for robust portfolio construction, backtesting, performance metrics, and visualization.
 
 ---
 
 ## 🚀 Features
 
 - 📈 **Portfolio Optimization** using factor exposures (FF3 & FF5)
-- 🔍 **Factor Regression** with statsmodels (OLS)
-- 🔁 **Rolling Sharpe Ratio Plots** for dynamic risk-adjusted returns
+- 🔍 **Factor Regression** with `statsmodels` (OLS)
+- 📊 **Efficient Frontier Plotting** for FF3 & FF5 models, with highlighted optimal portfolios
+- 📉 **Rolling Sharpe Ratio Plots** for dynamic risk-adjusted return tracking
 - 📉 **Drawdown Analysis** and Max Drawdown visualization
-- 🧠 Key Metrics: CAGR, Volatility, Sharpe, Sortino, Calmar Ratios
-- 📊 Comparison with S&P 500 benchmark (if provided)
-- 📂 Automated CSV export and high-res PNG chart saving
+- 📌 **Key Metrics**: CAGR, Volatility, Sharpe, Sortino, and Calmar Ratios
+- 📊 **Benchmarking** with S&P 500 index (optional)
+- 💾 **Automated Output**: CSV export and high-resolution PNG chart saving
+
+---
+
+## 🧪 Upcoming Features
+
+- 📈 **Monte Carlo Simulation** for optimized portfolios:
+  - Geometric Brownian Motion (GBM)
+  - GBM with Jump Diffusion (Jump Model)
+
 
 ---
 
@@ -131,16 +141,6 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 - `Data/output/plot
 <img width="1196" height="457" alt="image" src="https://github.com/user-attachments/assets/f86776e2-a883-4f0c-bc99-f3e29f55c52e" />
 
----
-### 🚧 Future Work
-
-- 🧪 **Monte Carlo Simulation for Optimized Portfolios**
-  - Implement simulation using **Geometric Brownian Motion (GBM)** and **Jump Diffusion models**
-  - Enable forward-looking scenario analysis for FF3 and FF5 optimized portfolios
-  - Visualize potential price paths, volatility cones, and probabilistic drawdowns
-
-- 🔍 **Stress Testing & Tail Risk Estimation**
-  - Incorporate **Value-at-Risk (VaR)** and **Conditional VaR (CVaR)** using historical and Monte Carlo methods
 ---
 
 ## 📝 User Inputs
