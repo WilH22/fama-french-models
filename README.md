@@ -102,6 +102,7 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
    - This chart visualizes the **efficient frontier** for portfolios optimized using Fama-French 3-Factor and 5-Factor models.
    - The optimal portfolios are highlighted, allowing you to compare risk-return trade-offs.
 
+<img width="705" height="985" alt="image" src="https://github.com/user-attachments/assets/317e44b6-f5ca-4c88-a14c-3f0b03ddaa57" />
 
 8. **💾 Final Save Option**  
    - Prompt to save **raw data outputs** to `Data/output/data/`  
