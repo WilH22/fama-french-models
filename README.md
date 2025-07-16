@@ -42,6 +42,7 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 <img width="464" height="126" alt="image" src="https://github.com/user-attachments/assets/c4202877-57e5-41d4-b6ef-31bf9d2e37e0" />
 
 
+
 3. **⚖️ Set Risk Aversion & Optimize Portfolios**  
    - User inputs **risk aversion level** (default = `10`)
 
@@ -58,6 +59,8 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
    - View pie charts for each optimized portfolio
 
 <img width="837" height="701" alt="image" src="https://github.com/user-attachments/assets/43b28714-cd77-4589-b220-35282701e08c" />
+
+
 
 4. **🔁 Backtest vs Benchmark or Compare Models**  
    - Choose to:
@@ -76,6 +79,8 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
    - Output saved to `Data/output/plot/`  
    - If any dataset is missing, the plot adjusts dynamically
 
+
+
 5. **📉 Drawdown Analysis**  
    - Computes **Max Drawdown** for each model
 
@@ -84,6 +89,8 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
    - Visualizes downside risk profile
 
 <img width="833" height="544" alt="image" src="https://github.com/user-attachments/assets/fafa0add-263b-46f4-8282-2f9870684855" />
+
+
 
 6. **📊 Compute Performance Metrics**  
    - Prompt for **risk-free rate** (default = `0.03`)  
@@ -98,11 +105,15 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 <img width="203" height="328" alt="image" src="https://github.com/user-attachments/assets/7f8ca6be-e1d6-4ca4-94a0-45c0cf92b358" />
 <img width="818" height="405" alt="image" src="https://github.com/user-attachments/assets/47792424-97a4-4ee6-b6ab-6d7261392d8c" />
 
+
+
 7. **📊Plotting Efficient Frontier for FF3 and FF5**
    - This chart visualizes the **efficient frontier** for portfolios optimized using Fama-French 3-Factor and 5-Factor models.
    - The optimal portfolios are highlighted, allowing you to compare risk-return trade-offs.
 
 <img width="705" height="985" alt="image" src="https://github.com/user-attachments/assets/317e44b6-f5ca-4c88-a14c-3f0b03ddaa57" />
+
+
 
 8. **💾 Final Save Option**  
    - Prompt to save **raw data outputs** to `Data/output/data/`  
