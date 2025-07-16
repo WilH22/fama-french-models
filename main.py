@@ -27,6 +27,7 @@ from modules.plotting import plot_relative_performance
 from modules.plotting import plot_drawdown_duration_comparison
 from modules.plotting import plot_drawdown_series
 from modules.plotting import plot_rolling_sharpe_auto
+from modules.plotting import plot_efficient_frontier_with_optimal
 
 #Step 1: Input ticker, start and end date
 tickers = input("Enter tickers (comma separated, e.g., AAPL, MSFT, TSLA): ").split(",")
@@ -39,7 +40,7 @@ adj_close, returns = fetch_data(tickers, start=start_date, end=end_date)
 
 #FF3-Factor
 # Step 1: Load FF3 data 
-ff3 = pd.read_csv('data/ff_factors/F-F_Research_Data_Factors.CSV', skiprows=3)
+ff3 = pd.read_csv('Data/ff_factors/F-F_Research_Data_Factors.CSV', skiprows=3)
 ff3.rename(columns={ff3.columns[0]: 'Date'}, inplace=True)
 ff3 = ff3[ff3['Date'].astype(str).str.len() == 6]
 ff3['Date'] = pd.to_datetime(ff3['Date'], format='%Y%m')
@@ -77,7 +78,7 @@ ff_fitted_plt(merged_data_ff3, 'FF3')
 
 #FF5-Factor
 # Step 1: Load FF5 data 
-ff5 = pd.read_csv('data/ff_factors/F-F_Research_Data_5_Factors_2x3.csv', skiprows=3)
+ff5 = pd.read_csv('Data/ff_factors/F-F_Research_Data_5_Factors_2x3.csv', skiprows=3)
 ff5.rename(columns={ff5.columns[0]: 'Date'}, inplace=True)
 ff5 = ff5[ff5['Date'].astype(str).str.len() == 6]
 ff5['Date'] = pd.to_datetime(ff5['Date'], format='%Y%m')
@@ -369,6 +370,28 @@ if 'cum_ff3' in locals():
 if 'cum_ff5' in locals():
     cum_returns_dict['FF5 Optimized Portfolio'] = cum_ff5
 
+#FF3 Efficient Frontier Plotting
+opt_weights_ff3 = portfolio_weights_ff3['Weight'].values
+expected_excess_return_ff3_series = pd.Series(expected_excess_return_ff3, index=tickers, name='Expected Excess Return FF3')
+df_frontier_ff3 = plot_efficient_frontier_with_optimal(
+    expected_excess_return_ff3_series, 
+    cov_matrix_ff3, 
+    opt_weights_ff3, 
+    risk_free_rate,
+    tickers=tickers, 
+    model_name="FF3")
+
+#FF5 Efficient Frontier Plotting
+opt_weights_ff5 = portfolio_weights_ff5['Weight'].values
+expected_excess_return_ff5_series = pd.Series(expected_excess_return_ff5, index=tickers, name='Expected Excess Return FF5')
+df_frontier_ff5 = plot_efficient_frontier_with_optimal(
+    expected_excess_return_ff5_series, 
+    cov_matrix_ff5, 
+    opt_weights_ff5, 
+    risk_free_rate,
+    tickers=tickers,
+    model_name="FF5")
+
 plot_rolling_sharpe_auto(cum_returns_dict, risk_free_rate)
 # Ask user whether to save outputs
 if input("Save all outputs to CSV in Data/output/data? (y/n): ").strip().lower() == 'y':
@@ -389,7 +412,9 @@ if input("Save all outputs to CSV in Data/output/data? (y/n): ").strip().lower()
         "ff3_metrics.csv": "ff3_metrics",
         "ff5_metrics.csv": "ff5_metrics",
         "dd_df.csv": "dd_df",
-        "comparison_df.csv": "comparison_df"
+        "comparison_df.csv": "comparison_df",
+        "df_frontier_ff5.csv":"df_frontier_ff5",
+        "df_frontier_ff3.csv":"df_frontier_ff3"
     }
 
     for filename, var_name in outputs.items():

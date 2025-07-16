@@ -333,3 +333,73 @@ def plot_rolling_sharpe_auto(cum_returns_dict, risk_free_rate):
     print(f"✅ Plot saved as '{filename}'")
     plt.show(block=False)
     plt.close()
+
+def plot_efficient_frontier_with_optimal(expected_return_vector, cov_matrix, 
+                                         optimal_weights, risk_free_rate, tickers, model_name="Efficient Frontier"):
+    np.random.seed(42)
+    num_portfolios = 10_000
+    monthly_rf = risk_free_rate / 12  # Convert annual RF to monthly
+
+    all_weights = []
+    all_returns = []
+    all_vols = []
+    all_sharpes = []
+
+    # Monte Carlo Simulation
+    for _ in range(num_portfolios):
+        weights = np.random.rand(len(expected_return_vector))
+        weights /= np.sum(weights)
+
+        port_return = np.dot(weights, expected_return_vector)
+        port_vol = np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights)))
+        sharpe = (port_return - monthly_rf) / port_vol 
+
+        all_weights.append(weights)
+        all_returns.append(port_return)
+        all_vols.append(port_vol)
+        all_sharpes.append(sharpe)
+
+    # Create DataFrame for raw data
+    df_frontier = pd.DataFrame({
+        'Return (%)': np.array(all_returns),
+        'Volatility': np.array(all_vols),
+        'Sharpe Ratio': np.array(all_sharpes),
+    })
+    columns=[f"{ticker}_Weightage" for ticker in tickers]
+    weights_df = pd.DataFrame(all_weights, columns=columns)
+    df_frontier = pd.concat([df_frontier, weights_df], axis=1)
+
+    # Locate max Sharpe portfolio from Monte Carlo
+    max_index = np.argmax(all_sharpes)
+    max_sharpe_return = all_returns[max_index]
+    max_sharpe_vol = all_vols[max_index]
+    max_sharpe = all_sharpes[max_index]
+
+    # Optimized Portfolio (mean-variance)
+    opt_return = np.dot(optimal_weights, expected_return_vector)
+    opt_vol = np.sqrt(np.dot(optimal_weights.T, np.dot(cov_matrix, optimal_weights)))
+    opt_sharpe = (opt_return - monthly_rf) / opt_vol
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    sc = plt.scatter(all_vols, np.array(all_returns) * 100, c=all_sharpes, cmap='Spectral', alpha=0.6)
+    plt.colorbar(sc, label='Sharpe Ratio')
+
+    plt.scatter(opt_vol, opt_return * 100, color='red', marker='*', s=200, label='Optimized Portfolio')
+    plt.scatter(max_sharpe_vol, max_sharpe_return * 100, color='blue', marker='X', s=150, label='Max Sharpe Portfolio')
+
+    plt.annotate(f"{opt_sharpe:.2f}", (opt_vol, opt_return * 100), textcoords="offset points", xytext=(-10,10), ha='center')
+    plt.annotate(f"{max_sharpe:.2f}", (max_sharpe_vol, max_sharpe_return * 100), textcoords="offset points", xytext=(-10,10), ha='center')
+
+    plt.title(f'{model_name} Efficient Frontier (Monthly)')
+    plt.xlabel('Volatility (Risk)')
+    plt.ylabel('Expected Monthly Return (%)')
+    plt.legend()
+    plt.grid(True)
+    filename = f'{model_name}_Efficient_Frontier_Monthly.png'
+    plt.savefig(f"Data/output/plot/{filename}", dpi=300, bbox_inches='tight')
+    print(f"✅ Plot saved as '{filename}'")
+    plt.show(block=False)
+    plt.close()
+
+    return df_frontier
