@@ -98,7 +98,12 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 <img width="203" height="328" alt="image" src="https://github.com/user-attachments/assets/7f8ca6be-e1d6-4ca4-94a0-45c0cf92b358" />
 <img width="818" height="405" alt="image" src="https://github.com/user-attachments/assets/47792424-97a4-4ee6-b6ab-6d7261392d8c" />
 
-7. **💾 Final Save Option**  
+7. **📊Plotting Efficient Frontier for FF3 and FF5**
+   - This chart visualizes the **efficient frontier** for portfolios optimized using Fama-French 3-Factor and 5-Factor models.
+   - The optimal portfolios are highlighted, allowing you to compare risk-return trade-offs.
+
+
+8. **💾 Final Save Option**  
    - Prompt to save **raw data outputs** to `Data/output/data/`  
    - All visualizations and CSVs are saved automatically
 
@@ -108,11 +113,22 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 ### Exports
 
 - `Data/output/data/
-<img width="626" height="426" alt="image" src="https://github.com/user-attachments/assets/8ca06159-2812-43b7-92f4-8f0cb7b8f811" />
+<img width="623" height="493" alt="image" src="https://github.com/user-attachments/assets/9fcf37ac-e060-490b-94e9-f14405f8f157" />
+
 
 - `Data/output/plot
-<img width="1204" height="455" alt="image" src="https://github.com/user-attachments/assets/d6fe3c2a-525e-455f-a73d-e4bd55bca9d4" />
+<img width="1196" height="457" alt="image" src="https://github.com/user-attachments/assets/f86776e2-a883-4f0c-bc99-f3e29f55c52e" />
 
+---
+### 🚧 Future Work
+
+- 🧪 **Monte Carlo Simulation for Optimized Portfolios**
+  - Implement simulation using **Geometric Brownian Motion (GBM)** and **Jump Diffusion models**
+  - Enable forward-looking scenario analysis for FF3 and FF5 optimized portfolios
+  - Visualize potential price paths, volatility cones, and probabilistic drawdowns
+
+- 🔍 **Stress Testing & Tail Risk Estimation**
+  - Incorporate **Value-at-Risk (VaR)** and **Conditional VaR (CVaR)** using historical and Monte Carlo methods
 ---
 
 ## 📝 User Inputs
