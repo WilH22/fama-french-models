@@ -1,5 +1,4 @@
 # analysis.py - FF3/FF5 Portfolio Analysis Module
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,6 +7,7 @@ import yfinance as yf
 import cvxpy as cp
 import seaborn as sns
 import statsmodels.api as sm
+from scipy.stats import norm
 from IPython.display import display
 
 def fetch_data(tickers, start=None, end=None):
@@ -378,3 +378,91 @@ def calculate_performance_metrics(cum_returns, risk_free_rate):
         "Max Drawdown": round(max_drawdown, 2),
         "Calmar Ratio": round(calmar, 2)
     })
+    
+def compute_modeling_variable_auto(cum_ff: pd.Series, sigma_cutoff):
+
+    cum_ff = cum_ff.squeeze()
+    log_returns = cum_ff.pct_change().apply(lambda x: np.log(1 + x)).dropna()
+
+    mu = log_returns.mean()
+    sigma = log_returns.std()
+    var = log_returns.var()
+    drift = mu - 0.5 * var
+
+    threshold = sigma_cutoff * sigma
+    jump_mask = (np.abs(log_returns - mu) > threshold)
+    jump_returns = log_returns[jump_mask]
+
+    total_months = len(log_returns)
+    years = total_months / 12
+    total_jumps = int(jump_mask.sum())
+    lambda_ = total_jumps / years if years > 0 else 0
+
+    mu_j = jump_returns.mean() if total_jumps > 0 else 0
+    sigma_j = jump_returns.std() if total_jumps > 0 else 0
+
+    jump_df = pd.DataFrame({
+        "Date": log_returns.index,
+        "LogAdjReturn": log_returns.values,
+        "Jump": jump_mask.astype(int)
+    })
+
+    print(f"📊 Jump Detection Summary:")
+    print(f" - Threshold (σ-cutoff): {threshold:.4f}")
+    print(f" - Timeframe: {years:.2f} years ({total_months} months)")
+    print(f" - Total Jumps Detected: {total_jumps}")
+
+    return drift, sigma, total_months, total_jumps, jump_df, lambda_, mu_j, sigma_j
+
+def compute_modeling_variable_manual(cum_ff: pd.Series, 
+                                     lambda_: float, 
+                                     mu_j: float, 
+                                     sigma_j: float):
+    
+    cum_ff = cum_ff.squeeze()
+    log_returns = cum_ff.pct_change().apply(lambda x: np.log(1 + x)).dropna()
+
+    mu = log_returns.mean()
+    sigma = log_returns.std()
+    var = log_returns.var()
+    drift = mu - 0.5 * var
+
+    threshold = sigma_cutoff * sigma
+    total_months = len(log_returns)
+    years = total_months / 12
+    expected_jumps = lambda_ * years  # for context, not detection
+
+    jump_df = pd.DataFrame({
+        "Date": log_returns.index,
+        "LogAdjReturn": log_returns.values,
+        "Jump": 0  # No jump detection used here
+    })
+
+    print(f"\n🛠️ Manual Jump Parameter Summary:")
+    print(f" - Drift: {drift:.4f}")
+    print(f" - λ (Jump Intensity): {lambda_}")
+    print(f" - μⱼ (Jump Size): {mu_j}")
+    print(f" - σⱼ (Jump Volatility): {sigma_j}")
+    print(f" - Expected Jumps: {expected_jumps:.2f} over {years:.2f} years")
+
+    return drift, sigma, total_months, expected_jumps, jump_df, lambda_, mu_j, sigma_j
+
+def simulate_price_paths(data, drift, stdev, months, trials, lambda_, mu_j, sigma_j):
+
+    dt = 1 / 12  # Monthly time step
+    Z = norm.ppf(np.random.rand(months, trials))  # Normal random shocks
+    N = np.random.poisson(lambda_ * dt, size=(months, trials))  # Number of jumps
+    J = np.random.normal(mu_j, sigma_j, size=(months, trials))  # Jump magnitudes
+
+    jumps = N * J
+    monthly_returns = np.exp(drift * dt + stdev * np.sqrt(dt) * Z + jumps)
+
+    # Initialize price paths
+    price_paths = np.zeros((months, trials))
+    price_paths[0] = data['Return'].iloc[-1]/data['Return'].iloc[-1]  # Start from last known price
+
+    for t in range(1, months):
+        price_paths[t] = price_paths[t - 1] * monthly_returns[t]
+
+    return price_paths
+

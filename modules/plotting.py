@@ -1,6 +1,4 @@
 # plotting.py - FF3/FF5 Portfolio Analysis Module
-
-from fileinput import filename
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,6 +7,7 @@ import yfinance as yf
 import cvxpy as cp
 import seaborn as sns
 import statsmodels.api as sm
+from scipy.stats import norm
 from IPython.display import display
 
 def display_regression_parameters(coef_df, model_type):
@@ -403,3 +402,33 @@ def plot_efficient_frontier_with_optimal(expected_return_vector, cov_matrix,
     plt.close()
 
     return df_frontier
+
+def plot_price_paths(model_type: str, simulated_paths_ff: np.ndarray, num_paths_to_plot):
+    df = pd.DataFrame(simulated_paths_ff)
+
+    plt.figure(figsize=(12, 6))
+    
+    # Plot only the first few paths for visibility
+    for i in range(min(num_paths_to_plot, df.shape[1])):
+        plt.plot(df.iloc[:, i], lw=1.2, alpha=0.8, label=f'Path {i+1}' if i < 5 else None)
+
+    # Axis formatting
+    plt.xlim(0, df.shape[0] - 1)
+    plt.ylim(df.min().min() * 0.95, df.max().max() * 1.05)
+
+    # Titles and labels
+    plt.title(f"Simulated Price Paths – {model_type}", fontsize=14)
+    plt.xlabel("Month", fontsize=12)
+    plt.ylabel("Simulated Price", fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.5)
+
+    # Optional legend (only if <=5 paths shown)
+    if num_paths_to_plot <= 5:
+        plt.legend()
+
+    plt.tight_layout()
+    filename = f'Simulated_Price_Paths_{model_type}.png'
+    plt.savefig(f"Data/output/plot/{filename}", dpi=300, bbox_inches='tight')
+    print(f"✅ Plot saved as '{filename}'")
+    plt.show(block=False)
+    plt.close()

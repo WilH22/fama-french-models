@@ -1,3 +1,4 @@
+# main.py - Fama-French 3-Factor and 5-Factor Model Analysis
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,6 +7,7 @@ import yfinance as yf
 import cvxpy as cp
 import seaborn as sns
 import statsmodels.api as sm
+from scipy.stats import norm
 from IPython.display import display
 
 from modules.analysis import fetch_data
@@ -18,6 +20,9 @@ from modules.analysis import compare_ff3_ff5
 from modules.analysis import analyze_ff3_ff5_comparison
 from modules.analysis import calculate_drawdown_duration
 from modules.analysis import calculate_performance_metrics
+from modules.analysis import compute_modeling_variable_auto
+from modules.analysis import compute_modeling_variable_manual
+from modules.analysis import simulate_price_paths
 
 from modules.plotting import display_regression_parameters
 from modules.plotting import ff_fitted_plt
@@ -28,6 +33,7 @@ from modules.plotting import plot_drawdown_duration_comparison
 from modules.plotting import plot_drawdown_series
 from modules.plotting import plot_rolling_sharpe_auto
 from modules.plotting import plot_efficient_frontier_with_optimal
+from modules.plotting import plot_price_paths
 
 #Step 1: Input ticker, start and end date
 tickers = input("Enter tickers (comma separated, e.g., AAPL, MSFT, TSLA): ").split(",")
@@ -393,6 +399,182 @@ df_frontier_ff5 = plot_efficient_frontier_with_optimal(
     model_name="FF5")
 
 plot_rolling_sharpe_auto(cum_returns_dict, risk_free_rate)
+
+# ✅ Check if there's data to simulate first
+if cum_ff3 is not None or cum_ff5 is not None:
+    run_gbm = input("Run Monte Carlo Simulation with GBM + Jump Diffusion Model? (y/n): ").strip().lower() == "y"
+
+    if run_gbm:
+        # Step 1: Simulation Parameters
+        try:
+            months = int(input("\n🗓️ Enter number of simulation months (e.g., 12): ").strip())
+        except ValueError:
+            print("❌ Invalid input. Using default of 12 months.")
+            months = 12
+
+        try:
+            trials = int(input("\n🔁 Enter number of simulation trials (e.g., 10000): ").strip())
+        except ValueError:
+            print("❌ Invalid input. Using default of 10,000 trials.")
+            trials = 10_000
+
+        try:
+            num_paths_to_plot = int(input("\n📈 Enter number of paths to plot (e.g., 100): ").strip())
+        except ValueError:
+            print("❌ Invalid input. Displaying all paths.")
+            num_paths_to_plot = trials
+
+        # Step 2: Handle Jump Parameters (Auto vs Manual)
+        use_auto_jump = input("\n⚙️ Do you want to auto-detect jumps? (y/n): ").strip().lower()
+
+        if use_auto_jump == "y":
+            sigma_cutoff_input = input("Input your sigma cutoff (default = 1.5): ").strip()
+            sigma_cutoff = float(sigma_cutoff_input) if sigma_cutoff_input else 1.5
+        else:
+            print("\n📌 Manual Jump Parameter Input Mode")
+            print("╭──────────────────────────────────────────────────────────────────╮")
+            print("│ Parameter   │ Typical Range       │ Interpretation               │")
+            print("├─────────────┼─────────────────────┼──────────────────────────────┤")
+            print("│ λ (lambda)  │ 1–4 / year          │ Jump frequency assumption    │")
+            print("│             │                     │                              │")
+            print("│ μⱼ (Jump)   │ -0.02 to -0.10      │ Downward jumps (e.g., crash) │")
+            print("│             │ +0.01 to +0.05      │ Upward jumps (e.g., spike)   │")
+            print("│             │                     │                              │")
+            print("│ σⱼ (Vol)    │ 0.05 to 0.15        │ Volatility around jumps      │")
+            print("╰──────────────────────────────────────────────────────────────────╯")
+
+            avg_jump_input = input("Enter average jumps per year (e.g., 2.0). Leave blank or enter 0 for no jumps (Standard GBM model): ").strip()
+            lambda_manual = float(avg_jump_input) if avg_jump_input else 0.0
+
+            if lambda_manual > 0:
+                mu_j_input = input("Enter average jump size: ").strip()
+                sigma_j_input = input("Enter jump volatility: ").strip()
+
+                mu_j = float(mu_j_input) if mu_j_input else -0.02
+                sigma_j = float(sigma_j_input) if sigma_j_input else 0.10
+                print("✅ Manual jump parameters accepted.")
+            else:
+                mu_j, sigma_j = 0.0, 0.0
+                print("⚠️ No jumps will be simulated (λ = 0) → standard GBM model.")
+
+        # Step 3: FF3 Simulation
+        if cum_ff3 is not None:
+            print("\n🚀 Running simulation for FF3 Portfolio")
+            cum_ff3_df = cum_ff3.to_frame(name="Return")
+
+            if use_auto_jump == "y":
+                drift_ff3, sigma_ff3, total_months_ff3, total_jumps_ff3, jump_df_ff3, lambda_ff3, mu_j_ff3, sigma_j_ff3 = compute_modeling_variable_auto(cum_ff3, sigma_cutoff)
+            else:
+                drift_ff3, sigma_ff3, total_months_ff3, expected_jumps_ff3, jump_df_ff3, lambda_ff3, mu_j_ff3, sigma_j_ff3 = compute_modeling_variable_manual(cum_ff3, lambda_manual, mu_j, sigma_j)
+
+            if lambda_ff3 < 0.1:
+                print("⚠️ Jump rate too low. Simulating FF3 with standard GBM.")
+                mu_j_ff3, sigma_j_ff3 = 0.0, 0.0
+
+            simulated_paths_ff3 = simulate_price_paths(cum_ff3_df, drift_ff3, sigma_ff3, months, trials, lambda_ff3, mu_j_ff3, sigma_j_ff3)
+            simulated_df_ff3 = pd.DataFrame(simulated_paths_ff3)
+            plot_price_paths("FF3", simulated_paths_ff3, num_paths_to_plot)
+        else:
+            print("⚠️ FF3 data not available. Skipping.")
+
+        # Step 4: FF5 Simulation
+        if cum_ff5 is not None:
+            print("\n🚀 Running simulation for FF5 Portfolio")
+            cum_ff5_df = cum_ff5.to_frame(name="Return")
+
+            if use_auto_jump == "y":
+                drift_ff5, sigma_ff5, total_months_ff5, total_jumps_ff5, jump_df_ff5, lambda_ff5, mu_j_ff5, sigma_j_ff5 = compute_modeling_variable_auto(cum_ff5, sigma_cutoff)
+            else:
+                drift_ff5, sigma_ff5, total_months_ff5, expected_jumps_ff5, jump_df_ff5, lambda_ff5, mu_j_ff5, sigma_j_ff5 = compute_modeling_variable_manual(cum_ff5, lambda_manual, mu_j, sigma_j)
+
+            if lambda_ff5 < 0.1:
+                print("⚠️ Jump rate too low. Simulating FF5 with standard GBM.")
+                mu_j_ff5, sigma_j_ff5 = 0.0, 0.0
+
+            simulated_paths_ff5 = simulate_price_paths(cum_ff5_df, drift_ff5, sigma_ff5, months, trials, lambda_ff5, mu_j_ff5, sigma_j_ff5)
+            simulated_df_ff5 = pd.DataFrame(simulated_paths_ff5)
+            plot_price_paths("FF5", simulated_paths_ff5, num_paths_to_plot)
+        else:
+            print("⚠️ FF5 data not available. Skipping.")
+    else:
+        print("❌ Skipping Monte Carlo Simulation.")
+else:
+    print("❌ No FF3 or FF5 portfolio data available. Nothing to simulate.")
+
+
+#Saving summmary df output
+summary_df_ff3, summary_df_ff5, summary_df_manual = None, None, None
+
+if use_auto_jump == "y":
+    if cum_ff3 is not None:
+        summary_df_ff3 = pd.DataFrame({
+            "Metric": ["Threshold (σ-cutoff)", "Timeframe (years)", "Timeframe (months)", "Total Jumps", "λ (Jump Intensity)", "μⱼ (Jump Size)", "σⱼ (Jump Volatility)"],
+            "Value": [
+                round(sigma_cutoff * cum_ff3_df["Return"].std(), 4),
+                round(total_months_ff3 / 12, 2),
+                total_months_ff3,
+                total_jumps_ff3,
+                round(lambda_ff3, 4),
+                round(mu_j_ff3, 4),
+                round(sigma_j_ff3, 4)
+            ]
+        })
+
+    if cum_ff5 is not None:
+        summary_df_ff5 = pd.DataFrame({
+            "Metric": ["Threshold (σ-cutoff)", "Timeframe (years)", "Timeframe (months)", "Total Jumps", "λ (Jump Intensity)", "μⱼ (Jump Size)", "σⱼ (Jump Volatility)"],
+            "Value": [
+                round(sigma_cutoff * cum_ff5_df["Return"].std(), 4),
+                round(total_months_ff5 / 12, 2),
+                total_months_ff5,
+                total_jumps_ff5,
+                round(lambda_ff5, 4),
+                round(mu_j_ff5, 4),
+                round(sigma_j_ff5, 4)
+            ]
+        })
+else:
+    # Manual mode applies to both if present
+    if cum_ff3 is not None:
+        summary_df_manual = pd.DataFrame({
+            "Metric": ["Drift", "λ (Jump Intensity)", "μⱼ (Jump Size)", "σⱼ (Jump Volatility)", "Expected Jumps", "Timeframe (years)", "Timeframe (months)"],
+            "Value": [
+                round(drift_ff3, 4),
+                lambda_ff3,
+                mu_j_ff3,
+                sigma_j_ff3,
+                round(expected_jumps_ff3, 2),
+                round(total_months_ff3 / 12, 2),
+                total_months_ff3
+            ]
+        })
+    elif cum_ff5 is not None:
+        summary_df_manual = pd.DataFrame({
+            "Metric": ["Drift", "λ (Jump Intensity)", "μⱼ (Jump Size)", "σⱼ (Jump Volatility)", "Expected Jumps", "Timeframe (years)", "Timeframe (months)"],
+            "Value": [
+                round(drift_ff5, 4),
+                lambda_ff5,
+                mu_j_ff5,
+                sigma_j_ff5,
+                round(expected_jumps_ff5, 2),
+                round(total_months_ff5 / 12, 2),
+                total_months_ff5
+            ]
+        })
+
+# 📤 Optional Display/Save
+if summary_df_ff3 is not None:
+    print("\n📘 FF3 Jump Summary")
+    print(summary_df_ff3.to_markdown(index=False))
+
+if summary_df_ff5 is not None:
+    print("\n📙 FF5 Jump Summary")
+    print(summary_df_ff5.to_markdown(index=False))
+
+if summary_df_manual is not None:
+    print("\n📗 Manual Jump Summary")
+    print(summary_df_manual.to_markdown(index=False))
+
 # Ask user whether to save outputs
 if input("Save all outputs to CSV in Data/output/data? (y/n): ").strip().lower() == 'y':
 
