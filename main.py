@@ -588,15 +588,20 @@ if input("Save all outputs to CSV in Data/output/data? (y/n): ").strip().lower()
         "portfolio_weights_ff5.csv": "portfolio_weights_ff5",
         "portfolio_returns_ff3.csv": "portfolio_returns_ff3",
         "portfolio_returns_ff5.csv": "portfolio_returns_ff5",
-        "cum_ff3.csv": "cum_ff3",
-        "cum_ff5.csv": "cum_ff5",
+        "cum_ff3.csv": "cum_ff3_df",
+        "cum_ff5.csv": "cum_ff5_df",
         "benchmark_returns.csv": "snp_returns",
         "ff3_metrics.csv": "ff3_metrics",
         "ff5_metrics.csv": "ff5_metrics",
         "dd_df.csv": "dd_df",
         "comparison_df.csv": "comparison_df",
         "df_frontier_ff5.csv":"df_frontier_ff5",
-        "df_frontier_ff3.csv":"df_frontier_ff3"
+        "df_frontier_ff3.csv":"df_frontier_ff3",
+        "simulated_paths_ff5.csv":"simulated_df_ff5",
+        "simulated_paths_ff3.csv":"simulated_df_ff3",
+        "summary_df_ff3.csv":"summary_df_ff3",
+        "summary_df_ff5.csv":"summary_df_ff5",
+        "summary_df_manual.csv":"summary_df_manual"
     }
 
     for filename, var_name in outputs.items():

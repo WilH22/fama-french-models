@@ -1,0 +1,8 @@
+,Metric,Value
+0,Threshold (σ-cutoff),0.3821
+1,Timeframe (years),3.25
+2,Timeframe (months),39.0
+3,Total Jumps,5.0
+4,λ (Jump Intensity),1.5385
+5,μⱼ (Jump Size),0.0267
+6,σⱼ (Jump Volatility),0.1284
