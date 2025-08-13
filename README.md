@@ -14,15 +14,9 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 - 📌 **Key Metrics**: CAGR, Volatility, Sharpe, Sortino, and Calmar Ratios
 - 📊 **Benchmarking** with S&P 500 index (optional)
 - 💾 **Automated Output**: CSV export and high-resolution PNG chart saving
-
----
-
-## 🧪 Upcoming Features
-
 - 📈 **Monte Carlo Simulation** for optimized portfolios:
-  - Geometric Brownian Motion (GBM)
-  - GBM with Jump Diffusion (Jump Model)
-
+   - Geometric Brownian Motion (GBM)
+   - GBM with Jump Diffusion (Jump Model)
 
 ---
 
@@ -121,11 +115,17 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
    - This chart visualizes the **efficient frontier** for portfolios optimized using Fama-French 3-Factor and 5-Factor models.
    - The optimal portfolios are highlighted, allowing you to compare risk-return trade-offs.
 
-<img width="705" height="985" alt="image" src="https://github.com/user-attachments/assets/317e44b6-f5ca-4c88-a14c-3f0b03ddaa57" />
+<img width="1037" height="946" alt="image" src="https://github.com/user-attachments/assets/dde654f2-f8f6-496d-9edb-86daefbcd6aa" />
 
+8. **📊Plotting Monte Carlo Simulation for Optimized Portfolio with GBM + Jump Diffusion Model
+   - Simulated price paths for FF3 and FF5 optimized portfolios, with options to:
+   - Set the number of simulations
+   - Enable/disable jump detection
+   - Detect jumps automatically via σ-cutoff or set a custom threshold
 
+<img width="1015" height="599" alt="image" src="https://github.com/user-attachments/assets/d8a2ef5f-72d4-470b-bf10-e6078d85ea81" />
 
-8. **💾 Final Save Option**  
+9. **💾 Final Save Option**  
    - Prompt to save **raw data outputs** to `Data/output/data/`  
    - All visualizations and CSVs are saved automatically
 
