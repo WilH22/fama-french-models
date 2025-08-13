@@ -128,6 +128,7 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 9. **💾 Final Save Option**  
    - Prompt to save **raw data outputs** to `Data/output/data/`  
    - All visualizations and CSVs are saved automatically
+<img width="451" height="424" alt="image" src="https://github.com/user-attachments/assets/0a5b38e9-90e5-4f9e-af30-9db334880601" />
 
 
 ## 📌 Example Output
@@ -135,11 +136,12 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 ### Exports
 
 - `Data/output/data/
-<img width="623" height="493" alt="image" src="https://github.com/user-attachments/assets/9fcf37ac-e060-490b-94e9-f14405f8f157" />
+<img width="680" height="690" alt="image" src="https://github.com/user-attachments/assets/6ca19def-afd3-4007-a990-579fec7c5103" />
 
 
 - `Data/output/plot
-<img width="1196" height="457" alt="image" src="https://github.com/user-attachments/assets/f86776e2-a883-4f0c-bc99-f3e29f55c52e" />
+<img width="1279" height="826" alt="image" src="https://github.com/user-attachments/assets/1f0a0fec-99b3-48ff-8d2b-c29824208408" />
+
 
 ---
 
