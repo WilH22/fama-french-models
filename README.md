@@ -117,7 +117,7 @@ This project builds, evaluates, and compares optimized portfolios using the **Fa
 
 <img width="1037" height="946" alt="image" src="https://github.com/user-attachments/assets/dde654f2-f8f6-496d-9edb-86daefbcd6aa" />
 
-8. **📊Plotting Monte Carlo Simulation for Optimized Portfolio with GBM + Jump Diffusion Model
+8. **📊Plotting Monte Carlo Simulation for Optimized Portfolio with GBM + Jump Diffusion Model**
    - Simulated price paths for FF3 and FF5 optimized portfolios, with options to:
    - Set the number of simulations
    - Enable/disable jump detection
